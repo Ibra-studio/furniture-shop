@@ -1,5 +1,20 @@
-import PageTemplate, { generateMetadata } from './[slug]/page'
+import type { Metadata } from 'next'
 
-export default PageTemplate
+import { Hero } from '@/components/boma/Hero'
+import { ShopByRoom } from '@/components/boma/ShopByRoom'
+import { OurStory } from '@/components/boma/OurStory'
 
-export { generateMetadata }
+export const metadata: Metadata = {
+  title: { absolute: 'Boma Design Studio | Design-led furniture in Kenya' },
+  description: 'Sofas, tables, beds and storage designed to bring warmth to every room.',
+}
+
+export default function HomePage() {
+  return (
+    <> 
+    <Hero />
+    <ShopByRoom />
+    <OurStory />
+    </>
+  )
+}

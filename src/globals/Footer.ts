@@ -2,6 +2,7 @@ import type { GlobalConfig } from 'payload'
 
 import { adminOnly } from '@/access/adminOnly'
 import { link } from '@/fields/link'
+import { revalidateGlobal } from './hooks/RevalidateGlobal'
 
 export const Footer: GlobalConfig = {
   slug: 'footer',
@@ -9,6 +10,9 @@ export const Footer: GlobalConfig = {
     read: () => true,
     update: adminOnly,
   },
+  hooks: {
+      afterChange: [revalidateGlobal('footer')],
+    },
   fields: [
     {
       name: 'navItems',

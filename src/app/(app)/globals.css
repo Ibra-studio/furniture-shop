@@ -1,5 +1,6 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
 
 @config '../../../tailwind.config.mjs';
 
@@ -9,18 +10,6 @@
 @custom-variant lg (@media (width >= theme(--breakpoint-lg)));
 @custom-variant xl (@media (width >= theme(--breakpoint-xl)));
 @custom-variant 2xl (@media (width >= theme(--breakpoint-2xl)));
-
-@layer base {
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-weight: unset;
-    font-size: unset;
-  }
-}
 
 @plugin "@tailwindcss/typography";
 
@@ -37,16 +26,49 @@
 @source inline("border-warning");
 @source inline("bg-warning/30");
 
+/* -------------------------------------------------------------------------- */
+/* Breakpoints                                                                */
+/* -------------------------------------------------------------------------- */
 @theme {
   --breakpoint-sm: 40rem;
   --breakpoint-md: 48rem;
   --breakpoint-lg: 64rem;
   --breakpoint-xl: 80rem;
   --breakpoint-2xl: 86rem;
-  --font-mono: var(--font-geist-mono);
-  --font-sans: var(--font-geist-sans);
 }
 
+/* -------------------------------------------------------------------------- */
+/* Base                                                                       */
+/* -------------------------------------------------------------------------- */
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    @apply font-sans;
+  }
+
+  body {
+    @apply bg-background text-foreground min-h-[100vh] flex flex-col antialiased;
+  }
+
+  /* Titres en serif (Fraunces). La taille se règle avec les classes Tailwind. */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: unset;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* Container du template (conservé) + container Boma                          */
+/* -------------------------------------------------------------------------- */
 @layer utilities {
   .container {
     width: 100%;
@@ -86,84 +108,116 @@
   }
 }
 
+/* Conteneur des sections Boma : 1440 px max, marges 20 px (mobile) / 80 px (desktop) */
+@utility container-boma {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 90rem;
+  padding-inline: var(--space-page-x);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Variables : source unique de vérité (miroir des variables Figma)           */
+/* -------------------------------------------------------------------------- */
 :root {
-  --background: oklch(100% 0 0deg);
-  --foreground: oklch(14.5% 0 0deg);
-  --card: oklch(96.5% 0.005 265deg);
-  --card-foreground: oklch(14.5% 0 0deg);
-  --popover: oklch(100% 0 0deg);
-  --popover-foreground: oklch(14.5% 0 0deg);
-  --primary: oklch(20.5% 0 0deg);
-  --primary-foreground: oklch(98.5% 0 0deg);
-  --secondary: oklch(97% 0 0deg);
-  --secondary-foreground: oklch(20.5% 0 0deg);
-  --muted: oklch(97% 0 0deg);
-  --muted-foreground: oklch(55.6% 0 0deg);
-  --accent: oklch(97% 0 0deg);
-  --accent-foreground: oklch(20.5% 0 0deg);
-  --destructive: oklch(57.7% 0.245 27.325deg);
-  --destructive-foreground: oklch(57.7% 0.245 27.325deg);
-  --border: oklch(92.2% 0 0deg);
-  --input: oklch(92.2% 0 0deg);
-  --ring: oklch(70.8% 0 0deg);
-  --chart-1: oklch(64.6% 0.222 41.116deg);
-  --chart-2: oklch(60% 0.118 184.704deg);
-  --chart-3: oklch(39.8% 0.07 227.392deg);
-  --chart-4: oklch(82.8% 0.189 84.429deg);
-  --chart-5: oklch(76.9% 0.188 70.08deg);
-  --radius: 0.625rem;
-  --sidebar: oklch(98.5% 0 0deg);
-  --sidebar-foreground: oklch(14.5% 0 0deg);
-  --sidebar-primary: oklch(20.5% 0 0deg);
-  --sidebar-primary-foreground: oklch(98.5% 0 0deg);
-  --sidebar-accent: oklch(97% 0 0deg);
-  --sidebar-accent-foreground: oklch(20.5% 0 0deg);
-  --sidebar-border: oklch(92.2% 0 0deg);
-  --sidebar-ring: oklch(70.8% 0 0deg);
+  /* — Tokens Boma (mêmes noms que dans Figma) — */
+  --bg-page: oklch(0.9741 0.0074 80.72); /* #F9F6F1 */
+  --bg-alt: oklch(0.9335 0.0165 79.35); /* #EFE8DD */
+  --bg-surface: oklch(1 0 0); /* #FFFFFF */
+  --bg-dark: oklch(0.1805 0.0064 55.94); /* #14110F */
+  --bg-dark-soft: oklch(0.2308 0.0109 60.9); /* #211C18 */
+  --text-primary: oklch(0.1805 0.0064 55.94); /* #14110F */
+  --text-secondary: oklch(0.5021 0.017 64.09); /* #6B625A */
+  --text-inverse: oklch(0.9741 0.0074 80.72); /* #F9F6F1 */
+  --text-inverse-muted: oklch(0.7592 0.0193 70.17); /* #B9AFA4 */
+  --accent-primary: oklch(0.5326 0.1188 42.7); /* #A4522F */
+  --accent-soft: oklch(0.9187 0.0222 58.77); /* #F0E1D6 */
+  --accent-green: oklch(0.4476 0.039 138.29); /* #4A5A45 */
+  --border-default: oklch(0.8945 0.0184 78.23); /* #E3DBCF */
+  --border-dark: oklch(0.3265 0.0144 62.91); /* #3A332D */
+  --badge-sale: oklch(0.5312 0.1519 31.45); /* #B3412F */
+  --rating-star: oklch(0.7871 0.1471 73.02); /* #F2A93B */
+
+  /* — Espacements et arrondis (valeurs mobile ; desktop plus bas) — */
+  --space-page-x: 1.25rem; /* 20 px */
+  --space-section-y: 4rem; /* 64 px */
+  --radius-card: 1.25rem; /* 20 px */
+
+  /* — Variables shadcn : elles pointent vers les tokens Boma — */
+  --background: var(--bg-page);
+  --foreground: var(--text-primary);
+  --card: var(--bg-surface);
+  --card-foreground: var(--text-primary);
+  --popover: var(--bg-surface);
+  --popover-foreground: var(--text-primary);
+  --primary: var(--bg-dark);
+  --primary-foreground: var(--text-inverse);
+  --secondary: var(--bg-alt);
+  --secondary-foreground: var(--text-primary);
+  --muted: var(--bg-alt);
+  --muted-foreground: var(--text-secondary);
+  /* "accent" de shadcn = teinte discrète des survols, PAS la couleur de marque.
+     La couleur de marque est --accent-primary (classes bg-brand / text-brand). */
+  --accent: var(--bg-alt);
+  --accent-foreground: var(--text-primary);
+  --destructive: var(--badge-sale);
+  --destructive-foreground: var(--text-inverse);
+  --border: var(--border-default);
+  --input: var(--border-default);
+  --ring: var(--accent-primary);
+  --radius: 0.75rem;
+
+  /* — Graphiques, sidebar et états (valeurs d'origine du template) — */
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
   --success: oklch(78% 0.08 200deg);
   --warning: oklch(89% 0.1 75deg);
   --error: oklch(75% 0.15 25deg);
 }
 
-[data-theme='dark'] {
-  --background: oklch(14.5% 0 0deg);
-  --foreground: oklch(98.5% 0 0deg);
-  --card: oklch(17% 0 0deg);
-  --card-foreground: oklch(98.5% 0 0deg);
-  --popover: oklch(14.5% 0 0deg);
-  --popover-foreground: oklch(98.5% 0 0deg);
-  --primary: oklch(98.5% 0 0deg);
-  --primary-foreground: oklch(20.5% 0 0deg);
-  --secondary: oklch(26.9% 0 0deg);
-  --secondary-foreground: oklch(98.5% 0 0deg);
-  --muted: oklch(26.9% 0 0deg);
-  --muted-foreground: oklch(70.8% 0 0deg);
-  --accent: oklch(26.9% 0 0deg);
-  --accent-foreground: oklch(98.5% 0 0deg);
-  --destructive: oklch(39.6% 0.141 25.723deg);
-  --destructive-foreground: oklch(63.7% 0.237 25.331deg);
-  --border: oklch(26.9% 0 0deg);
-  --input: oklch(26.9% 0 0deg);
-  --ring: oklch(43.9% 0 0deg);
-  --chart-1: oklch(48.8% 0.243 264.376deg);
-  --chart-2: oklch(69.6% 0.17 162.48deg);
-  --chart-3: oklch(76.9% 0.188 70.08deg);
-  --chart-4: oklch(62.7% 0.265 303.9deg);
-  --chart-5: oklch(64.5% 0.246 16.439deg);
-  --sidebar: oklch(20.5% 0 0deg);
-  --sidebar-foreground: oklch(98.5% 0 0deg);
-  --sidebar-primary: oklch(48.8% 0.243 264.376deg);
-  --sidebar-primary-foreground: oklch(98.5% 0 0deg);
-  --sidebar-accent: oklch(26.9% 0 0deg);
-  --sidebar-accent-foreground: oklch(98.5% 0 0deg);
-  --sidebar-border: oklch(26.9% 0 0deg);
-  --sidebar-ring: oklch(43.9% 0 0deg);
-  --success: oklch(28% 0.1 200deg);
-  --warning: oklch(35% 0.08 70deg);
-  --error: oklch(45% 0.1 25deg);
+/* Valeurs desktop (équivalent du mode « Desktop » dans Figma) */
+@media (min-width: 64rem) {
+  :root {
+    --space-page-x: 5rem; /* 80 px */
+    --space-section-y: 7.5rem; /* 120 px */
+    --radius-card: 1.5rem; /* 24 px */
+  }
 }
 
+/* -------------------------------------------------------------------------- */
+/* Tailwind : expose les variables comme classes utilitaires                  */
+/* -------------------------------------------------------------------------- */
 @theme inline {
+  /* Couleurs Boma → bg-page, bg-alt, text-ink, bg-brand, border-line... */
+  --color-page: var(--bg-page);
+  --color-alt: var(--bg-alt);
+  --color-surface: var(--bg-surface);
+  --color-dark: var(--bg-dark);
+  --color-dark-soft: var(--bg-dark-soft);
+  --color-ink: var(--text-primary);
+  --color-ink-soft: var(--text-secondary);
+  --color-inverse: var(--text-inverse);
+  --color-inverse-muted: var(--text-inverse-muted);
+  --color-brand: var(--accent-primary);
+  --color-brand-soft: var(--accent-soft);
+  --color-moss: var(--accent-green);
+  --color-line: var(--border-default);
+  --color-line-dark: var(--border-dark);
+  --color-sale: var(--badge-sale);
+  --color-star: var(--rating-star);
+
+  /* Couleurs shadcn */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -188,10 +242,6 @@
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
@@ -203,17 +253,28 @@
   --color-success: var(--success);
   --color-warning: var(--warning);
   --color-error: var(--error);
+
+  /* Arrondis */
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* Polices (chargées avec next/font dans layout.tsx) */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-fraunces), ui-serif, Georgia, serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-heading: var(--font-serif);
 }
 
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground min-h-[100vh] flex flex-col;
-  }
-}
-
+/* -------------------------------------------------------------------------- */
+/* Thème : le site est en mode clair uniquement.                              */
+/* InitTheme définit data-theme ; tant qu'il n'est pas défini, la page est    */
+/* masquée pour éviter un flash. Ne pas retirer InitTheme sans retirer ceci.  */
+/* -------------------------------------------------------------------------- */
 html {
   opacity: 0;
 }
@@ -223,8 +284,9 @@ html[data-theme='light'] {
   opacity: initial;
 }
 
+/* Anneau de focus aux couleurs de la marque */
 a,
 input,
 button {
-  @apply focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-neutral-400 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-50 dark:focus-visible:ring-neutral-600 dark:focus-visible:ring-offset-neutral-900;
+  @apply focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-page;
 }

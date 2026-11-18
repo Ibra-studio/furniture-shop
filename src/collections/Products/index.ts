@@ -155,7 +155,6 @@ export const ProductsCollection: CollectionOverride = ({ defaultCollection }) =>
                   }
                 }
 
-                // ID comes back as undefined during seeding so we need to handle that case
                 return {
                   id: {
                     exists: true,
@@ -186,15 +185,63 @@ export const ProductsCollection: CollectionOverride = ({ defaultCollection }) =>
 
             MetaDescriptionField({}),
             PreviewField({
-              // if the `generateUrl` function is configured
               hasGenerateFn: true,
-
-              // field paths to match the target field for data
               titlePath: 'meta.title',
               descriptionPath: 'meta.description',
             }),
           ],
         },
+      ],
+    },
+    // --- CHAMPS AJOUTÉS POUR CORRESPONDRE À VOS BESOINS E-COMMERCE & UI ---
+    {
+      name: 'roomCategory',
+      type: 'select',
+      label: 'Pièce associée (Shop by Room)',
+      admin: {
+        position: 'sidebar',
+        description: 'Permet de lier le produit au filtre des pièces de la page d’accueil',
+      },
+      options: [
+        { label: 'Living Room', value: 'living-room' },
+        { label: 'Bedroom', value: 'bedroom' },
+        { label: 'Dining', value: 'dining' },
+        { label: 'Storage', value: 'storage' },
+        { label: 'Home Office', value: 'home-office' },
+      ],
+    },
+    {
+      name: 'badge',
+      type: 'select',
+      label: 'Badge produit',
+      admin: { position: 'sidebar' },
+      options: [
+        { label: 'Best Seller', value: 'best-seller' },
+        { label: 'New', value: 'new' },
+        { label: 'Sale', value: 'sale' },
+      ],
+    },
+    {
+      name: 'rating',
+      type: 'number',
+      label: 'Note moyenne (ex: 4.9)',
+      defaultValue: 4.9,
+      admin: { position: 'sidebar' },
+    },
+    {
+      name: 'reviewsCount',
+      type: 'number',
+      label: "Nombre d'avis (ex: 128)",
+      defaultValue: 128,
+      admin: { position: 'sidebar' },
+    },
+    {
+      name: 'colors',
+      type: 'array',
+      label: 'Pastilles de couleurs disponibles',
+      admin: { position: 'sidebar' },
+      fields: [
+        { name: 'colorHex', type: 'text', label: 'Code Hex (ex: #A4522F)' },
       ],
     },
     {
@@ -208,5 +255,24 @@ export const ProductsCollection: CollectionOverride = ({ defaultCollection }) =>
       relationTo: 'categories',
     },
     slugField(),
+    {
+      name: 'price',
+      type: 'number',
+      required: true,
+      label: 'Prix actuel (ex: 1480)',
+      admin: {
+        position: 'sidebar',
+        description: 'Le prix de vente actuel du produit',
+      },
+    },
+    {
+      name: 'compareAtPrice',
+      type: 'number',
+      label: 'Prix d’origine / Barré (ex: 1150)',
+      admin: {
+        position: 'sidebar',
+        description: 'Optionnel : Remplir uniquement si le produit est en solde (pour afficher le prix barré)',
+      },
+    },
   ],
 })
